@@ -1,0 +1,468 @@
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[separators]
+left = 
+right = 
+font = 10
+
+[separator-left]
+type = custom/text
+content = ${separators.left}
+content-font = ${separators.font}
+
+[separator-right]
+type = custom/text
+content = ${separators.right}
+content-font = ${separators.font}
+
+[colors]
+; c-0 = #110C19
+; c-1 = #212730
+; c-2 = #695B66
+; c-3 = #94767E
+; c-4 = #3D4149
+; c-5 = #C7A28D
+; c-6 = #B66935
+; c-7 = #6D4022
+; c-8 = #EEE2BC
+; c-9 = #EDBA54
+
+c-0 = #110C19
+c-1 = #212730
+c-2 = #695B66
+c-3 = #94767E
+c-4 = #003D4149
+c-5 = #C7A28D
+c-6 = #B66935
+c-7 = #6D4022
+c-8 = #EEE2BC
+c-9 = #EDBA54
+
+
+;; _-_-_-_-_-_-_-_- Main Bar _-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+
+[bar/main]
+width = 100%
+height = 38
+offset-y = 0
+top = true
+fixed-center = true
+dpi = 120
+monitor=${env:MONITOR:}
+override-redirect = false
+scroll-up = next
+scroll-down = prev
+enable-ipc = true
+background = ${colors.c-4}
+foreground = ${colors.c-9}
+
+font-0 = "JetBrains Mono Nerd Font:style=Medium:size=11;2"
+font-1 = "JetBrains Mono Nerd Font:style=Bold:size=11;2"
+font-2 = "JetBrainsMono Nerd Font:size=19;5"
+font-3 = "Material Icons Outlined:9;4"
+font-4 = "Material Icons Round:9;4"
+font-5 = "Source Han Sans CN:size=9;2"
+font-6 = "Iosevka Nerd Font:size=18;4"
+font-7 = "FontAwesome:size=18;4"
+font-8 = "Iosevka Nerd Font:size=14;3"
+font-9 = "Iosevka Nerd Font:size=19;5"
+
+tray-position = left
+tray-background = ${colors.c-0}
+tray-maxsize = 25
+tray-padding = 10
+modules-left = apps 01R i3 12R kernel 23R vpn 3R
+modules-center = 1L mpd volume 1R
+modules-right =  34L cpu-short temp 23L memory-short 12L pulseaudio  01L date power
+cursor-click = pointer
+
+[bar/second]
+inherit = bar/main
+tray-position = none
+modules-left = apps 01R i3 12R kernel 23R vpn 3R
+modules-center = 1L mpd 1R
+modules-right =  34L cpu-short temp 23L memory-short 12L pulseaudio 01L date-short
+
+;; _-_-_-_-_-_-_-_-_ Settings -_-_-_-_-_-_-_-_-_-_-_-_-_
+
+
+[settings]
+screenchange-reload = true
+pseudo-transparency = true
+
+[module/apps]
+type = custom/text
+content = %{T10}%{T-}
+content-padding = 2
+click-left = ~/.config/rofi/launchers/colorful/launcher.sh
+content-background=${colors.c-0}
+
+[module/power]
+type = custom/text
+content = 襤
+content-padding=2
+content-background=${colors.c-0}
+content-font=9
+click-left = ~/.config/rofi/powermenu/powermenu.sh
+
+;; _-_-_-_-_-_-_-_ Date/Time -_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+
+[module/date]
+type = internal/date
+interval = 1
+
+time = "%H:%M:%S %d.%m.%Y"
+
+format = <label>
+format-foreground = ${colors.c-9}
+format-background = ${colors.c-0}
+format-padding = 0
+format-prefix = %{T5}%{T-}
+label = %{T1}%time%%{T-}
+label-padding = 1
+
+[module/kernel]
+type = custom/script
+exec = uname -r | awk -F"-" '{print $1}'
+interval = 1024
+label=%{T9}%{T-} %output%
+label-padding = 1
+label-background = ${colors.c-2}
+
+[module/date-short]
+inherit = module/date
+time = "%H:%M %d.%m"
+
+[module/vpn]
+type=internal/network
+interface = tun0
+interval = 1
+format-connected=<label-connected>
+format-disconnected=<label-disconnected>
+label-connected = %{T9}%{T-} %local_ip%
+label-disconnected = %{T9}%{T-}
+label-connected-background = ${colors.c-3}
+label-disconnected-background = ${colors.c-3}
+label-connected-padding = 1
+label-disconnected-padding = 1
+
+
+;;_-_-_-_-_-_-_-_- Volume -_-_-_-_-_-_-_-_-_-_-_-_-_
+
+
+[module/pulseaudio]
+type = internal/pulseaudio
+use-ui-max = false
+
+format-volume = <label-volume>
+format-volume-padding = 0
+format-volume-prefix = %{T4}%{T-}
+
+format-volume-prefix-foreground = ${colors.c-9}
+format-volume-prefix-background = ${colors.c-1}
+label-volume = %{T1}%percentage%%%{T-}
+label-volume-foreground = ${colors.c-9}
+label-volume-background = ${colors.c-1}
+label-volume-padding = 1
+
+format-muted = <label-muted>
+format-muted-padding = 0
+format-muted-prefix=%{T4}%{T-}
+format-muted-prefix-foreground = ${colors.c-9}
+format-muted-prefix-background = ${colors.c-1}
+label-muted=%{T1}%percentage%%%{T-}
+label-muted-foreground = ${colors.c-9}
+label-muted-background = ${colors.c-1}
+label-muted-padding = 1
+
+click-right = pavucontrol&
+
+
+;;_-_-_-_-_-_-_-_-_ Workspaces -_-_-_-_-_-_-_-_-_-_-_-_-_
+
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = true
+enable-scroll = true
+pin-workspaces = true
+
+ws-icon-default = 
+
+fuzzy-match = true
+
+strip-wsnumbers = true
+; Only show workspaces on the same output as the bar
+;pin-workspaces = true
+
+label-mode-padding = 1
+label-mode-foreground = ${colors.c-9}
+label-mode-background = ${colors.c-1}
+
+; focused = Active workspace on focused monitor
+label-focused = %icon% %name%
+label-focused-background = ${colors.c-1}
+label-focused-underline= ${colors.c-9}
+label-focused-foreground= ${colors.c-9}
+label-focused-padding = 1
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %name%
+label-unfocused-padding = 1
+label-unfocused-background = ${colors.c-1}
+label-unfocused-foreground = ${colors.c-9}
+
+; visible = Active workspace on unfocused monitor
+label-visible = %name%
+label-visible-background = ${self.label-focused-background}
+label-visible-foreground = ${self.label-focused-foreground}
+label-visible-underline = ${self.label-focused-underline}
+label-visible-padding = ${self.label-focused-padding}
+
+; urgent = Workspace with urgency hint set
+label-urgent = !%name%
+label-urgent-background = ${colors.red}
+label-urgent-foreground = ${colors.c-9}
+label-urgent-padding = 1
+
+; Separator in between workspaces
+label-separator = |
+label-separator-background = ${colors.c-1}
+label-separator-foreground = ${colors.c-9}
+
+
+;; _-_-_-_-_-_-_-_-_ Active window title -_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/title]
+type = internal/xwindow
+
+format = <label>
+format-padding = 0
+format-foreground = ${colors.foreground}
+
+label = "%title%"
+label-maxlen = 50
+
+; Used instead of label when there is no window title
+label-empty = Desktop
+
+;;=============== MPD =====================
+[module/mpd]
+type = internal/mpd
+host = localhost
+port = 6600
+
+format-online = <icon-seekb> <icon-play> <icon-pause> <icon-seekf> <label-song>
+format-playing = ${self.format-online}
+format-paused = ${self.format-online}
+format-stopped = ${self.format-online}
+format-online-padding = 1
+format-playing-padding = 1
+format-paused-padding = 1
+format-stopped-padding = 1
+format-online-background = ${colors.c-1}
+format-playing-background = ${colors.c-1}
+format-paused-background = ${colors.c-1}
+format-stopped-background = ${colors.c-1}
+scroll-up = exec mpc volume +10
+scroll-down = exec mpc volume -10
+
+; Available tags:
+;   <label-offline>
+; Default: ""
+;format-offline = <label-offline>
+
+; Available tokens:
+;   %artist%
+;   %album-artist%
+;   %album%
+;   %date%
+;   %title%
+; Default: %artist% - %title%
+label-song = %title:0:20:...%
+
+; Available tokens:
+;   %elapsed%
+;   %total%
+; Default: %elapsed%/ %total%
+label-time = %elapsed% / %total%
+
+; Available tokens:
+;   None
+label-offline = %{T9}ﱙ%{T-} mpd is offline
+
+; Only applies if <icon-X> is used
+icon-play = %{T9}%{T-}
+icon-pause = %{T9}%{T-}
+icon-stop = %{T9}⏹%{T-}
+icon-prev = %{T9}%{T-}
+icon-next = %{T9}%{T-}
+icon-seekb = %{T9}%{T-}
+icon-seekf = %{T9}%{T-}
+icon-random = %{T9}%{T-}
+icon-repeat = %{T9}凌%{T-}
+icon-repeatone = %{T9}綾%{T-}
+icon-single = %{T9}綾%{T-}
+icon-consume = %{T9}✀%{T-}
+
+; Used to display the state of random/repeat/repeatone/single
+; Only applies if <icon-[random|repeat|repeatone|single]> is used
+toggle-on-foreground = #ff
+toggle-off-foreground = #55
+
+; Only applies if <bar-progress> is used
+bar-progress-width = 10
+bar-progress-indicator = |
+bar-progress-fill = ─
+bar-progress-empty = ─
+
+[module/volume]
+type=custom/script
+exec = mpc volume | awk -F':' '{print $2}'
+interval=0.5
+format=%{T9}%{T-} <label>
+format-background=${colors.c-1}
+scroll-up=mpc volume +5
+scroll-down=mpc volume -5
+
+;;=============== Memory ==================
+[module/memory]
+type = internal/memory
+interval = 1
+format = <bar-used><label>
+label = %gb_used%
+label-background = ${colors.c-2}
+label-foreground = ${colors.c-9}
+label-padding = 1
+bar-used-indicator =
+bar-used-width = 8
+bar-used-foreground-0 = ${colors.c-3}
+bar-used-foreground-1 = ${colors.c-4}
+bar-used-foreground-2 = ${colors.c-5}
+bar-used-foreground-3 = ${colors.c-6}
+bar-used-fill = ▐
+bar-used-empty = ▐
+bar-used-empty-foreground = #444444
+bar-used-empty-background = ${colors.c-2}
+bar-used-fill-background = ${colors.c-2}
+
+[module/memory-short]
+inherit = module/memory
+format = <label>
+label = %{T9}%{T-} %gb_used%
+
+
+;;================ CPU ===============
+[module/cpu]
+type = internal/cpu
+format = <bar-load><label>
+label = %percentage:3%%
+label-padding = 1
+label-background = ${colors.c-3}
+label-foreground = ${colors.c-9}
+bar-load-indicator =
+bar-load-width = 8
+bar-load-foreground-0 = ${colors.c-4}
+bar-load-foreground-1 = ${colors.c-5}
+bar-load-foreground-2 = ${colors.c-6}
+bar-load-foreground-3 = ${colors.c-7}
+bar-load-fill = ▐
+bar-load-empty = ▐
+bar-load-empty-foreground = #444444
+bar-load-empty-background = ${colors.c-3}
+bar-load-fill-background = ${colors.c-3}
+
+[module/cpu-short]
+inherit = module/cpu
+format = <label>
+label = %{T9}%{T-} %percentage%%
+
+[module/temp]
+type=internal/temperature
+thermal-zone=3
+hwmon-path=/sys/devices/platform/coretemp.0/hwmon/hwmon5/temp1_input
+base-temperature=20
+warn-temperature = 60
+format = <label>
+label = %temperature-c:2%
+label-foreground = ${colors.c-9}
+label-warn-foreground = ${colors.c-8}
+label-warn-background = ${colors.c-3}
+label-background = ${colors.c-3}
+label-padding = 1
+label-warn-padding = 1
+
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+[module/01R]
+inherit = separator-right
+content-foreground = ${colors.c-0}
+content-background = ${colors.c-1}
+
+[module/01L]
+inherit = separator-left
+content-foreground = ${colors.c-0}
+content-background = ${colors.c-1}
+
+[module/12R]
+inherit = separator-right
+content-foreground = ${colors.c-1}
+content-background = ${colors.c-2}
+
+[module/1R]
+inherit = separator-right
+content-foreground = ${colors.c-1}
+
+[module/1L]
+inherit = separator-left
+content-foreground = ${colors.c-1}
+
+[module/12L]
+inherit = separator-left
+content-foreground = ${colors.c-1}
+content-background = ${colors.c-2}
+
+[module/2R]
+inherit = separator-right
+content-foreground = ${colors.c-2}
+
+[module/2L]
+inherit = separator-left
+content-foreground = ${colors.c-2}
+
+[module/23R]
+inherit = separator-right
+content-foreground = ${colors.c-2}
+content-background = ${colors.c-3}
+
+[module/23L]
+inherit = separator-left
+content-foreground = ${colors.c-2}
+content-background = ${colors.c-3}
+
+[module/3R]
+inherit = separator-right
+content-foreground = ${colors.c-3}
+
+[module/34R]
+inherit = separator-right
+content-foreground = ${colors.c-3}
+content-background = ${colors.c-4}
+
+[module/34L]
+inherit = separator-left
+content-foreground = ${colors.c-3}
+content-background = ${colors.c-4}
