@@ -10,6 +10,8 @@ do
     ln -s $PWD/.config/$pkg ~/.config/$pkg
 done
 
+ln -s $PWD/.config/picom.conf ~/.config/picom.conf
+
 ln -s $PWD/.mpd ~/.mpd
 touch ~/.mpd/mpd.db ~/.mpd/mpd.pid ~/.mpd/mpdstate
 
