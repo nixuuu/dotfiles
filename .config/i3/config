@@ -32,8 +32,6 @@ exec --no-startup-id nm-applet
 exec --no-startup-id xrandr --output DVI-D-0 --mode 1920x1080 --rate 144 --scale 1.5x1.5 --left-of DisplayPort-0 && xrandr --output DisplayPort-0 --pos 2880x0 --scale 0.99990x0.9999 && picom -b --experimental-backends
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id ~/.config/polybar/launch.sh
-exec --no-startup-id ~/.mpd/launch.sh
- 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -51,7 +49,7 @@ bindsym XF86AudioPrev exec --no-startup-id mpc prev
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -60,7 +58,7 @@ bindsym $mod+Shift+q kill
 #bindsym $mod+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
 #bindsym $mod+d exec "rofi -modi drun,run -show drun"
-bindsym $mod+d exec ~/.config/rofi/launchers/colorful/launcher.sh
+bindsym $mod+d exec --no-startup-id ~/.config/rofi/launchers/colorful/launcher.sh
 #bindsym $mod+n exec 
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
@@ -161,10 +159,10 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec --no-startup-id "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
-bindsym --release Print exec "scrot -s ~/Pictures/%Y-%m-%d-%T-screenshot.png"
-bindsym --release $mod+Print exec "scrot -s ~/Pictures/%Y-%m-%d-%T-screenshot.png -e 'xclip -selection clipboard -t image/png < $f'"
+bindsym --release Print exec --no-startup-id "scrot -s ~/Pictures/%Y-%m-%d-%T-screenshot.png"
+bindsym --release $mod+Print exec --no-startup-id "scrot -s ~/Pictures/%Y-%m-%d-%T-screenshot.png -e 'xclip -selection clipboard -t image/png < $f'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
