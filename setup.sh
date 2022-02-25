@@ -11,6 +11,7 @@ do
 done
 
 ln -s $PWD/.config/picom.conf ~/.config/picom.conf
+ln -s $PWD/.gitconfig ~/.gitconfig
 
 ln -s $PWD/.mpd ~/.mpd
 touch ~/.mpd/mpd.db ~/.mpd/mpd.pid ~/.mpd/mpdstate

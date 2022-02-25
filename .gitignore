@@ -1,3 +1,4 @@
 .mpd/mpd.db
 .mpd/mpd.pid
 .mpd/mpdstate
+.mpd/mpd.log

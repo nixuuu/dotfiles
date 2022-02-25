@@ -1,0 +1,6 @@
+[user]
+	name = Damian Plewa
+	email = damianp96@gmail.com
+	signingkey = AA905360F62387C6
+[commit]
+	gpgsign = true
