@@ -59,6 +59,7 @@ bindsym $mod+Shift+q kill
 # A more modern dmenu replacement is rofi:
 #bindsym $mod+d exec "rofi -modi drun,run -show drun"
 bindsym $mod+Space exec --no-startup-id ~/.config/rofi/launchers/colorful/launcher.sh
+bindsym $mod+b exec --no-startup-id chromium
 #bindsym $mod+n exec 
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
