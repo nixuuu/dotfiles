@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ln -s $PWD/.Xresources ~/.Xresources
+mkdir -p ~/.config
 
 configs=(alacritty i3 polybar rofi)
 
