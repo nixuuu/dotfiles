@@ -80,7 +80,7 @@ tray-position = left
 tray-background = ${colors.c-0}
 tray-maxsize = 25
 tray-padding = 10
-modules-left = apps 01R i3 12R kernel 23R vpn 3R
+modules-left = apps 01R i3 12R kernel 23R keymap 3R
 modules-center = 1L mpd volume 1R
 modules-right =  34L cpu-short temp 23L memory-short 12L pulseaudio  01L date power
 cursor-click = pointer
@@ -88,7 +88,7 @@ cursor-click = pointer
 [bar/second]
 inherit = bar/main
 tray-position = none
-modules-left = apps 01R i3 12R kernel 23R vpn 3R
+modules-left = apps 01R i3 12R kernel 23R keymap 3R
 modules-center = 1L mpd 1R
 modules-right =  34L cpu-short temp 23L memory-short 12L pulseaudio 01L date-short
 
@@ -155,6 +155,14 @@ label-connected-background = ${colors.c-3}
 label-disconnected-background = ${colors.c-3}
 label-connected-padding = 1
 label-disconnected-padding = 1
+
+[module/keymap]
+type = custom/script
+exec = setxkbmap -query | grep layout | awk '{print $2}'
+interval = 60
+label = %{T9}%{T-} %output%
+label-padding-left = 1
+label-background=${colors.c-3}
 
 
 ;;_-_-_-_-_-_-_-_- Volume -_-_-_-_-_-_-_-_-_-_-_-_-_
